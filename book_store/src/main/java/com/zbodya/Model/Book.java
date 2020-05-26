@@ -39,26 +39,28 @@ public class Book
 	@Column(name = "description")
 	private String describtion;
 	
-	@Column(name = "publisher")
-	private ArrayList<Publisher> publishers;
-	
-	@Column(name = "author")
-	private Author author;
-	
-	@Column(name = "image")
-	private File image;
+//	@Column(name = "publisher")
+//	private ArrayList<Publisher> publishers;
+//	
+//	@Column(name = "author")
+//	private Author author;
+//	
+//	@Column(name = "image")
+//	private File image;
 	
 	public Book() {}
 
-	public Book(LocalDate publishDate, String title, String describtion, ArrayList<Publisher> publishers,
-			Author author, File image) {
+	public Book(LocalDate publishDate, String title, String describtion
+//			, ArrayList<Publisher> publishers,
+//			Author author, File image
+			) {
 		super();
 		this.publishDate = publishDate;
 		this.title = title;
 		this.describtion = describtion;
-		this.publishers = publishers;
-		this.author = author;
-		this.image = image;
+//		this.publishers = publishers;
+//		this.author = author;
+//		this.image = image;
 	}
 
 	public int getID() {
@@ -93,29 +95,29 @@ public class Book
 		this.describtion = describtion;
 	}
 
-	public ArrayList<Publisher> getPublishers() {
-		return publishers;
-	}
-
-	public void setPublishers(ArrayList<Publisher> publishers) {
-		this.publishers = publishers;
-	}
-
-	public Author getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(Author author) {
-		this.author = author;
-	}
-
-	public File getImage() {
-		return image;
-	}
-
-	public void setImage(File image) {
-		this.image = image;
-	}
-	
+//	public ArrayList<Publisher> getPublishers() {
+//		return publishers;
+//	}
+//
+//	public void setPublishers(ArrayList<Publisher> publishers) {
+//		this.publishers = publishers;
+//	}
+//
+//	public Author getAuthor() {
+//		return author;
+//	}
+//
+//	public void setAuthor(Author author) {
+//		this.author = author;
+//	}
+//
+//	public File getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(File image) {
+//		this.image = image;
+//	}
+//	
 	
 }

@@ -48,6 +48,29 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+  			 <groupId>org.webjars</groupId>
+  			 <artifactId>jquery</artifactId>
+  			 <version>3.3.1-1</version>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+		<dependency>
+		   <groupId>org.webjars</groupId>
+		   <artifactId>popper.js</artifactId>
+		   <version>1.14.1</version>
+		</dependency>
+		<dependency>
+		   <groupId>org.webjars</groupId>
+		   <artifactId>bootstrap</artifactId>
+		   <version>4.1.1</version>
+		</dependency> 
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+        	<artifactId>spring-data-commons</artifactId>
+  		</dependency> 
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
