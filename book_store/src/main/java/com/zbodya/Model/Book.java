@@ -1,5 +1,8 @@
 package com.zbodya.Model;
 
-public class Book {
+public class Book 
+{
 
+	private int ID;
+	
 }
