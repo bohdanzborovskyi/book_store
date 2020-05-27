@@ -4,12 +4,17 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -23,7 +28,7 @@ public class Book
 {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)	
 	@Column(name = "id")
 	private int ID;
 	
@@ -39,28 +44,29 @@ public class Book
 	@Column(name = "description")
 	private String describtion;
 	
-//	@Column(name = "publisher")
-//	private ArrayList<Publisher> publishers;
-//	
-//	@Column(name = "author")
-//	private Author author;
-//	
-//	@Column(name = "image")
-//	private File image;
+	@ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	@JoinTable(name="book_publisher",
+			joinColumns = @JoinColumn(name="book_id"),
+			inverseJoinColumns = @JoinColumn(name = "publisher_id"))		
+	private List<Publisher> publishers;
+	
+	@ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	@JoinTable(name = "book_author",
+			   joinColumns = @JoinColumn(name="book_id"),
+			   inverseJoinColumns = @JoinColumn(name = "author_id"))
+	private List<Author> authors;
+	
+	@Column(name = "image")
+	private File image;
 	
 	public Book() {}
 
-	public Book(LocalDate publishDate, String title, String describtion
-//			, ArrayList<Publisher> publishers,
-//			Author author, File image
-			) {
+	public Book(LocalDate publishDate, String title, String describtion,File image) {
 		super();
 		this.publishDate = publishDate;
 		this.title = title;
 		this.describtion = describtion;
-//		this.publishers = publishers;
-//		this.author = author;
-//		this.image = image;
+		this.image = image;
 	}
 
 	public int getID() {
@@ -95,29 +101,57 @@ public class Book
 		this.describtion = describtion;
 	}
 
-//	public ArrayList<Publisher> getPublishers() {
-//		return publishers;
-//	}
-//
-//	public void setPublishers(ArrayList<Publisher> publishers) {
-//		this.publishers = publishers;
-//	}
-//
-//	public Author getAuthor() {
-//		return author;
-//	}
-//
-//	public void setAuthor(Author author) {
-//		this.author = author;
-//	}
-//
-//	public File getImage() {
-//		return image;
-//	}
-//
-//	public void setImage(File image) {
-//		this.image = image;
-//	}
-//	
+	public List<Publisher> getPublishers() {
+		return publishers;
+	}
+
+	public void setPublishers(ArrayList<Publisher> publishers) {
+		this.publishers = publishers;
+	}
+
+	public List<Author> getAuthor() {
+		return authors;
+	}
+
+	public void setAuthor(ArrayList<Author> authors) {
+		this.authors = authors;
+	}
+
+	public File getImage() {
+		return image;
+	}
+
+	public void setImage(File image) {
+		this.image = image;
+	}
+	
+	public void addPublisher(Publisher publisher) 
+	{
+		if(publishers== null) 
+		{
+			publishers = new ArrayList<Publisher>();
+		}
+		publishers.add(publisher);
+	}
+	
+	public void deletePublisher(Publisher publisher) 
+	{
+		publishers.remove(publisher);
+	}
+	
+	public void addAuthor(Author author) 
+	{
+		if(authors== null) 
+		{
+			authors = new ArrayList<Author>();
+		}
+		authors.add(author);
+	}
+	
+	public void deleteAuthor(Author author) 
+	{
+		authors.remove(author);
+	}
+	
 	
 }

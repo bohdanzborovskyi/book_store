@@ -4,12 +4,14 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -40,24 +42,21 @@ public class Author {
 	@Column(name = "image")
 	private File image;
 	
-	@Column(name = "books")
-	private ArrayList<Book> books;
+	@ManyToMany(mappedBy = "authors")
+	private List<Book> books;
 	
-	@Column(name = "publishers")
-	private ArrayList<Publisher> publishers;
+	@ManyToMany(mappedBy = "authors")
+	private List<Publisher> publishers;
 	
 	public Author() {}
 	
 
-	public Author(LocalDate birthday, @NotBlank String name, String description, File image, ArrayList<Book> books,
-			ArrayList<Publisher> publishers) {
+	public Author(LocalDate birthday, @NotBlank String name, String description, File image) {
 		super();
 		this.birthday = birthday;
 		this.name = name;
 		this.description = description;
 		this.image = image;
-		this.books = books;
-		this.publishers = publishers;
 	}
 
 	public int getID() {
@@ -92,7 +91,7 @@ public class Author {
 		this.image = image;
 	}
 
-	public ArrayList<Book> getBooks() {
+	public List<Book> getBooks() {
 		return books;
 	}
 
@@ -100,7 +99,7 @@ public class Author {
 		this.books = books;
 	}
 
-	public ArrayList<Publisher> getPublishers() {
+	public List<Publisher> getPublishers() {
 		return publishers;
 	}
 

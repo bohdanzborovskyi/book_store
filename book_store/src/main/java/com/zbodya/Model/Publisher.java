@@ -3,12 +3,17 @@ package com.zbodya.Model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -35,20 +40,21 @@ public class Publisher
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "books")
-	private ArrayList<Book> books;
+	@ManyToMany(mappedBy = "publishers")
+	private List<Book> books;
 	
-	@Column(name = "authors")
-	private ArrayList<Author> authors;
+	@ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	@JoinTable(name = "publisheer_author",
+			   joinColumns = @JoinColumn(name = "publisher_id"),
+			   inverseJoinColumns = @JoinColumn(name = "author_id"))
+	private List<Author> authors;
 	
 	public Publisher() {}
 
-	public Publisher(String name, String description, ArrayList<Book> books, ArrayList<Author> authors, LocalDate established) {
+	public Publisher(String name, String description, LocalDate established) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.books = books;
-		this.authors = authors;
 		this.established = established;
 	}
 
@@ -76,7 +82,7 @@ public class Publisher
 		this.description = description;
 	}
 
-	public ArrayList<Book> getBooks() {
+	public List<Book> getBooks() {
 		return books;
 	}
 
@@ -84,7 +90,7 @@ public class Publisher
 		this.books = books;
 	}
 
-	public ArrayList<Author> getAuthors() {
+	public List<Author> getAuthors() {
 		return authors;
 	}
 
@@ -98,6 +104,20 @@ public class Publisher
 
 	public void setEstablished(LocalDate established) {
 		this.established = established;
+	}
+	
+	public void addAuthor(Author author) 
+	{
+		if(authors == null) 
+		{
+			authors = new ArrayList<Author>();
+		}
+		authors.add(author);
+	}
+	
+	public void deleteAuthor(Author author) 
+	{
+		authors.remove(author);
 	}
 	
 	
