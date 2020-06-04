@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -39,8 +40,9 @@ public class Author {
 	@Column(name = "description")
 	private String description;
 	
+	@NotNull
 	@Column(name = "image")
-	private File image;
+	private String image;
 	
 	@ManyToMany(mappedBy = "authors")
 	private List<Book> books;
@@ -51,7 +53,7 @@ public class Author {
 	public Author() {}
 	
 
-	public Author(LocalDate birthday, @NotBlank String name, String description, File image) {
+	public Author(LocalDate birthday, @NotBlank String name, String description, String image) {
 		super();
 		this.birthday = birthday;
 		this.name = name;
@@ -83,11 +85,11 @@ public class Author {
 		this.description = description;
 	}
 
-	public File getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(File image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
