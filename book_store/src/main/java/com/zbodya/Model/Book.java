@@ -2,7 +2,6 @@ package com.zbodya.Model;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,8 @@ import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "book")
@@ -56,8 +57,12 @@ public class Book
 			   inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private List<Author> authors;
 	
+	@NotNull
 	@Column(name = "image")
 	private File image;
+	
+	@Column(name="file_name")
+	private String fileName;
 	
 	public Book() {}
 
@@ -67,6 +72,14 @@ public class Book
 		this.title = title;
 		this.describtion = describtion;
 		this.image = image;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public int getID() {
