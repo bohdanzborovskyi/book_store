@@ -55,23 +55,23 @@ public class Book
 	@JoinTable(name = "book_author",
 			   joinColumns = @JoinColumn(name="book_id"),
 			   inverseJoinColumns = @JoinColumn(name = "author_id"))
-	private List<Author> authors;
+	private List<Author> authors;	
 	
 	@NotNull
-	@Column(name = "image")
-	private File image;
-	
 	@Column(name="file_name")
 	private String fileName;
 	
-	public Book() {}
+	@NotNull
+	@Column(name="pdf_name")
+	private String pdfName;
+	
+	public Book() {}	
 
-	public Book(LocalDate publishDate, String title, String describtion,File image) {
+	public Book(LocalDate publishDate, String title, String describtion) {
 		super();
 		this.publishDate = publishDate;
 		this.title = title;
 		this.describtion = describtion;
-		this.image = image;
 	}
 
 	public String getFileName() {
@@ -129,14 +129,6 @@ public class Book
 	public void setAuthor(ArrayList<Author> authors) {
 		this.authors = authors;
 	}
-
-	public File getImage() {
-		return image;
-	}
-
-	public void setImage(File image) {
-		this.image = image;
-	}
 	
 	public void addPublisher(Publisher publisher) 
 	{
@@ -164,6 +156,14 @@ public class Book
 	public void deleteAuthor(Author author) 
 	{
 		authors.remove(author);
+	}
+	
+	public String getPdfName() {
+		return pdfName;
+	}
+
+	public void setPdfName(String pdfName) {
+		this.pdfName = pdfName;
 	}
 	
 	

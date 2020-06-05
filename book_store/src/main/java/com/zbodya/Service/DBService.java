@@ -22,7 +22,7 @@ public class DBService
 		return entityManager;
 	}
 	
-	public static void closeDBConnection() 
+	public static void closeDBConnection(EntityManager entityManager) 
 	{
 		entityManager.getTransaction().commit();
 		entityManager.close();

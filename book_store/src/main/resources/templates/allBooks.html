@@ -9,15 +9,18 @@
 
 	<div class="container">
 		<div class="row row-cols-3">
-			<div class="col" th:each="book : ${books}">
+			<div class="col" th:each="book : ${books}">			
 			<div class="card mx-4 my-4">
 				<img th:src="@{/images/books/{id}/{name}(id=${book.ID},name=${book.fileName})}" class="card-img-top"/>
 				<div class="card-body">
-				<h1 class="card-title" th:text="${book.ID}"> </h1>
-				<h3 class="card-text" th:text="${book.fileName}"></h3>
-				<h3 class="card-text" th:text="${book.publishDate}"></h3>	
+				<h2 class="card-title" th:text="${book.title}"> </h2>
+				<h5 class="card-text" th:text="${book.describtion}"></h5>
+				<h5 class="card-text" th:text="'Publication date:' +  ${book.publishDate}"></h5>
+				<a th:href="@{/book/editBookForm/{id}(id=${book.ID})}" class="m-1 btn btn-primary">Edit a book</a>
+				<a th:href="@{/book/deleteBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary">Delete a book</a>
+				<a th:href="@{/book/readBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary">Read a book</a>				
 				</div>
-			</div>
+			</div>				
 			</div>	
 		</div>			
 	</div> 
