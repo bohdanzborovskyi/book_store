@@ -2,8 +2,10 @@ package com.zbodya.Controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +13,13 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +31,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zbodya.Model.Book;
@@ -151,6 +160,28 @@ public class BookController {
 		model.addAttribute("book", book);
 		dbService.closeDBConnection(manager);
 		return "readBook";
+	}
+	
+	@GetMapping(value="/downloadPDF/{id}")
+	public ResponseEntity<InputStreamResource> downloadPDF(@PathVariable Integer id) 
+	{
+		EntityManager manager = dbService.openDBConnection();
+		Book book = (Book) manager.createQuery("select b from Book b where id=" + id).getSingleResult();
+		File pdf = new File(resources_books + book.getID() + "\\" + book.getPdfName());
+		dbService.closeDBConnection(manager);			
+		HttpHeaders headers = new HttpHeaders();
+		InputStreamResource media = null;
+		try {
+			media = new InputStreamResource(new FileInputStream(pdf));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok().
+				header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=" + pdf.getName()).
+				contentType(MediaType.APPLICATION_PDF).
+				contentLength(pdf.length()).
+				body(media);
 	}
 	
 
