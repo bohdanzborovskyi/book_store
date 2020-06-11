@@ -3,21 +3,18 @@ package com.zbodya.Controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,15 +24,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zbodya.Model.Book;
 import com.zbodya.Model.Repositories.BookRepository;
+import com.zbodya.Service.BookService;
 import com.zbodya.Service.DBService;
 
 
@@ -48,6 +44,9 @@ public class BookController {
 	
 	@Autowired
 	BookRepository bookRepo;
+	
+	@Autowired
+	BookService bookService;
 	
 	@GetMapping(value = "/addBookForm")
 	public String addBookForm(Book book) 
@@ -90,11 +89,18 @@ public class BookController {
 	}
 	
 	@GetMapping(value="/allBooks")
-	public String allBooks(Model model)
+	public String allBooks(@RequestParam(defaultValue = "1")Integer pageNo, @RequestParam(defaultValue = "4") Integer size,
+			@RequestParam(defaultValue = "title") String sort, Model model)
 	{
-		List<Book>books = bookRepo.findAll();
-		
+		Page<Book>books = bookService.getBooks(pageNo-1, size, sort);				
+		model.addAttribute("sort", sort);
 		model.addAttribute("books", books);
+		if(books.getTotalPages()>0) 
+		{
+			System.out.println("Pages: " + books.getTotalPages() + " " + books.getNumber());
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, books.getTotalPages()).boxed().collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}		
 		return "allBooks";
 	}
 	
@@ -183,6 +189,8 @@ public class BookController {
 				contentLength(pdf.length()).
 				body(media);
 	}
+	
+	
 	
 
 }

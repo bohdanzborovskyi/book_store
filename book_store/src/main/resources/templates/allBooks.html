@@ -16,15 +16,27 @@
 				<h2 class="card-title" th:text="${book.title}"> </h2>
 				<h5 class="card-text" th:text="${book.describtion}"></h5>
 				<h5 class="card-text" th:text="'Publication date:' +  ${book.publishDate}"></h5>
-				<a th:href="@{/book/editBookForm/{id}(id=${book.ID})}" class="m-1 btn btn-primary">Edit a book</a>
-				<a th:href="@{/book/deleteBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary">Delete a book</a>
-				<a th:href="@{/book/readBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary">Read a book</a>				
-				<a th:href="@{/book/downloadPDF/{id}(id=${book.ID})}" class="m-1 btn btn-primary">Get a book</a>			
+				<a th:href="@{/book/editBookForm/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Edit a book  </a>
+				<a th:href="@{/book/deleteBook/{id}(id=${book.ID})}" class="m-1 btn btn-danger btn-circle">Delete a book</a>
+				<a th:href="@{/book/readBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Read a book</a>				
+				<a th:href="@{/book/downloadPDF/{id}(id=${book.ID})}" class="m-1 btn btn-success btn-circle">Get a book </a>			
 				</div>
 			</div>				
-			</div>	
+			</div>				
 		</div>			
+		<nav>
+			<ul class="pagination" th:if="${books.totalPages > 0}" th:each="pageNumber: ${pageNumbers}">				
+				<li class="page-item" th:classappend="${pageNumber == (books.number + 1)} ? 'active' : ''">
+				<div>
+				<a class="page-link" th:href="@{/book/allBooks(size=${books.size},pageNo=${pageNumber})}" th:text="${pageNumber}"></a></li>
+				</div>				
+			</ul>
+		</nav>			
 	</div> 
-
+	
+	
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
