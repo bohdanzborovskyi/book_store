@@ -24,4 +24,14 @@ public class BookService
 		Page<Book> page = repo.findAll(pageable);
 		return page;
 	}
+	
+	public Page<Book> findBooks(Integer pageNo, Integer pageSize, String sortBy, String findBy, String findKey)
+	{
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<Book> page;
+		if(findBy.equals("title")) {page = repo.findByTitle(pageable,findKey);}
+		else if(findBy.equals("describtion")) {page = repo.findByDescribtion(pageable,findKey);}
+		else page = repo.findAll(pageable);
+		return page;
+	}
 }

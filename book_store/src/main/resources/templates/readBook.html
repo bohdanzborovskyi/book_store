@@ -2,41 +2,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <title>All books</title>
 </head>
-<body class="c-app">
+<body>	
 
-	<div class="c-sidebar c-sidebar-light c-sidebar-show">
-  		<ul class="c-sidebar-nav">
-    		<li class="c-sidebar-nav-title">Book Store Menu</li>
-    		<li class="c-sidebar-nav-item">
-     			 <a class="c-sidebar-nav-link" href="#">
-        		 <i class="c-sidebar-nav-icon cil-book"></i> Main Page</a>
-   			</li>   
-    		<li class="c-sidebar-nav-item nav-dropdown">
-      			<a class="c-sidebar-nav-link nav-dropdown-toggle" href="#">
-        		<i class="c-sidebar-nav-icon cil-book"></i> Book Menu</a>
-      			<ul class="c-sidebar-nav-dropdown-items">
-        			<li class="c-sidebar-nav-item">
-          			<a class="c-sidebar-nav-link" href="#" th:src="@{/book/allBooks}">
-           			<i class="c-sidebar-nav-icon cil-book"></i> All Books</a>
-        			</li>
-       				<li class="c-sidebar-nav-item">
-          			<a class="c-sidebar-nav-link" href="#" th:src="@{/book/addBookForm}">
-            		<i class="c-sidebar-nav-icon cil-book"></i>Add New Book </a>
-       				</li>
-      			</ul>
-   			</li>    
- 		</ul>
-	</div>
+	<nav class="navbar navbar-expand-sm bg-light">
+		<a class="navbar-brand" href="#">Book Store</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/book/allBooks}">Main</a>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/book/allBooks}">All books</a>
+					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
+				</div>
+			</li>
+		</ul>
+	</nav>
 
-
-
-<div class="wrapper">
-	<div class="c-body">
-	<main class="c-main">
-	<div class="container-fluid">					
+	
+	<div class="container">					
 			<div class="card mx-4 my-4">
 				<div class="col-4  mx-auto mt-3"><img th:src="@{/images/books/{id}/{name}(id=${book.ID},name=${book.fileName})}" class="card-img-top" width="150px" height="150px"/></div>
 				<div class="card-body">
@@ -45,14 +33,11 @@
 				</div>
 			</div>	
 	</div>
-	</main>	
-	</div>
-</div>
-
-
-	 <script src="https://unpkg.com/@popperjs/core@2"></script>
-	 <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
-	 
+	
+	
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	 
 </body>
 </html>

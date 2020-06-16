@@ -7,6 +7,32 @@
 </head>
 <body>
 
+
+	<nav class="navbar navbar-expand-sm bg-light">
+		<a class="navbar-brand" href="#">Book Store</a>
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/book/allBooks(findReq='false')}">Main</a>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
+					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
+				</div>
+			</li>
+		</ul>
+		<form class="form-inline my-2 my-lg-0" th:action="@{/book/allBooks}" >
+		<select class="form-control" id="findBy" name="findBy">
+			<option th:value="title" th:text="Title"></option>
+			<option th:value="describtion" th:text="Describtion"></option>
+		</select>		
+        	<input id="findKey" name="findKey" class="form-control mr-sm-2 pr-2 " type="search" placeholder="Search" aria-label="Search">
+        	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    	</form>
+	</nav>
+
+
 	<div class="container">
 		<div class="row row-cols-3">
 			<div class="col" th:each="book : ${books}">			
@@ -28,7 +54,7 @@
 			<ul class="pagination" th:if="${books.totalPages > 0}" th:each="pageNumber: ${pageNumbers}">				
 				<li class="page-item" th:classappend="${pageNumber == (books.number + 1)} ? 'active' : ''">
 				<div>
-				<a class="page-link" th:href="@{/book/allBooks(size=${books.size},pageNo=${pageNumber})}" th:text="${pageNumber}"></a></li>
+				<a class="page-link" th:href="@{/book/allBooks(size=${books.size},pageNo=${pageNumber},findBy=${findBy},findKey=${findKey})}" th:text="${pageNumber}"></a></li>
 				</div>				
 			</ul>
 		</nav>			

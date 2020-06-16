@@ -14,5 +14,7 @@ public interface BookRepository extends JpaRepository<Book,Long>
 
 	Optional<Book> findByID(Integer iD);
 	Page<Book> findAll(Pageable pageable);
-	
+	Page<Book> findByTitle(Pageable pageable,String title);
+	Page<Book> findByDescribtion(Pageable pageable,String describtion);
+
 }

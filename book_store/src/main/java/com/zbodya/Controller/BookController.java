@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,8 @@ public class BookController {
 	BookRepository bookRepo;
 	
 	@Autowired
-	BookService bookService;
+	BookService bookService;	
+	
 	
 	@GetMapping(value = "/addBookForm")
 	public String addBookForm(Book book) 
@@ -90,9 +92,26 @@ public class BookController {
 	
 	@GetMapping(value="/allBooks")
 	public String allBooks(@RequestParam(defaultValue = "1")Integer pageNo, @RequestParam(defaultValue = "4") Integer size,
-			@RequestParam(defaultValue = "title") String sort, Model model)
+			@RequestParam(defaultValue = "title") String sort, @RequestParam(required = false) String findBy,@RequestParam (required = false) String findKey, Model model, HttpServletRequest request)
 	{
-		Page<Book>books = bookService.getBooks(pageNo-1, size, sort);				
+		Page<Book>books;
+		System.out.println(request.getParameter("findReq") + " " + request.getParameter("findBy"));
+		if(request.getParameter("findReq")!=null)
+		{	
+			findBy=null;
+			findKey=null;
+		}
+		System.out.println(findBy + " " + findKey);
+		if((findBy!=null) && (findKey!=null)) 
+		{
+			books = bookService.findBooks(pageNo-1, size, sort, findBy, findKey);					
+			model.addAttribute("findBy", findBy);
+			model.addAttribute("findKey", findKey);			
+		}
+		else
+		{
+			books = bookService.getBooks(pageNo-1, size, sort);				
+		}		
 		model.addAttribute("sort", sort);
 		model.addAttribute("books", books);
 		if(books.getTotalPages()>0) 
@@ -188,9 +207,7 @@ public class BookController {
 				contentType(MediaType.APPLICATION_PDF).
 				contentLength(pdf.length()).
 				body(media);
-	}
-	
-	
+	}	
 	
 
 }
