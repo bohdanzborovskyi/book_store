@@ -7,6 +7,35 @@
 </head>
 <body>
 
+	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  		<div class="carousel-inner">
+    		<div class="carousel-item active">
+    		    <img th:src="@{/images/service/library.jpeg}" width="1200px" height="720px" class="d-block w-100" >
+    		    <div class="carousel-caption d-none d-md-block">
+        			<h5>Welcome in Book Store</h5>
+        			<p>Only books matter</p>
+      			</div>
+    		</div>    		
+  		</div>
+	</div>
+
+
+	<nav class="navbar navbar-expand-sm bg-light">
+		<a class="navbar-brand" href="#">Book Store</a>
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/book/allBooks(findReq='false')}">Main</a>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
+					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
+				</div>
+			</li>
+		</ul>		
+	</nav>
+
 	<div class="container my-5">
 		<h3>Add new Book</h3>
 		<div class="card">

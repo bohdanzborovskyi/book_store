@@ -29,8 +29,8 @@ public class BookService
 	{
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Book> page;
-		if(findBy.equals("title")) {page = repo.findByTitle(pageable,findKey);}
-		else if(findBy.equals("describtion")) {page = repo.findByDescribtion(pageable,findKey);}
+		if(findBy.equals("title")) {page = repo.findByTitleContainingIgnoreCase(pageable,findKey);}
+		else if(findBy.equals("describtion")) {page = repo.findByDescribtionContainingIgnoreCase(pageable,findKey);}
 		else page = repo.findAll(pageable);
 		return page;
 	}

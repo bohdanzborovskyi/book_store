@@ -30,7 +30,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zbodya.Model.Author;
 import com.zbodya.Model.Book;
+import com.zbodya.Model.Repositories.AuthorRepository;
 import com.zbodya.Model.Repositories.BookRepository;
 import com.zbodya.Service.BookService;
 import com.zbodya.Service.DBService;
@@ -46,6 +48,9 @@ public class BookController {
 	@Autowired
 	BookRepository bookRepo;
 	
+	@Autowired 
+	AuthorRepository authorRepo;
+	
 	@Autowired
 	BookService bookService;	
 	
@@ -56,7 +61,7 @@ public class BookController {
 		return "addBookForm";
 	}
 	
-	private String resources_books = "C:\\Users\\tempadmin2\\git\\book_store_repository\\book_store\\src\\main\\resources\\static\\images\\books\\";
+	private final String resources_books = "C:\\Users\\tempadmin2\\git\\book_store_repository\\book_store\\src\\main\\resources\\static\\images\\books\\";
 	
 	
 	@PostMapping(value = "/addBook")
@@ -75,18 +80,31 @@ public class BookController {
 		else 
 		{	
 			File image = new File(resources_books + book.getID());			
-			try {
-				image.mkdirs();
-				image = new File(resources_books + book.getID() + "\\" + mFile.getOriginalFilename());
-				File pdf = new File(resources_books + book.getID() + "\\" + pdfFile.getOriginalFilename());
-				pdfFile.transferTo(pdf);
+			image.mkdirs();
+			if(!mFile.isEmpty())
+			{			
+			try {				
+				image = new File(resources_books + book.getID() + "\\" + mFile.getOriginalFilename());				
 				image.createNewFile();
 				mFile.transferTo(image);
 			} catch (IOException e) 
 			{				
 				e.printStackTrace();
-			}			
-			return "allBooks";
+			}
+			}
+			else if(!mFile.isEmpty()) 
+			{
+				try 
+				{
+				File pdf = new File(resources_books + book.getID() + "\\" + pdfFile.getOriginalFilename());
+				pdf.createNewFile();
+				pdfFile.transferTo(pdf);
+				}catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+			}
+			return "redirect:/book/allBooks";
 		}
 	}
 	
@@ -98,6 +116,7 @@ public class BookController {
 		System.out.println(request.getParameter("findReq") + " " + request.getParameter("findBy"));
 		if(request.getParameter("findReq")!=null)
 		{	
+			sort = "title";
 			findBy=null;
 			findKey=null;
 		}
@@ -136,29 +155,57 @@ public class BookController {
 	}
 	
 	@PostMapping(value="/editBook/{id}")
-	public String editBook(@PathVariable("id") Integer id, @Valid @ModelAttribute("book")Book book, BindingResult bindingResult, @RequestPart("file")MultipartFile mfile, Model model) 
-	{		
-		System.out.println("ID:" + book.getID() + book.getDescribtion());
+	public String editBook(@PathVariable("id") Integer id, @Valid @ModelAttribute("book")Book book, BindingResult bindingResult, @RequestPart("file")MultipartFile mfile,@RequestPart("pdf")MultipartFile pdfFile, Model model) 
+	{	
+		String pdfName = bookRepo.findByID(id).get().getPdfName();
+		String fileName = bookRepo.findByID(id).get().getFileName();
+		System.out.println("mfile: " +  mfile.isEmpty() + " pdffile: " + pdfFile.isEmpty() + " " + book.getFileName() + " " + book.getPdfName());
 		if(bindingResult.hasErrors()) 
 		{
 			return "editBookForm";
 		}
 		else 
-		{
-			if(!mfile.isEmpty())
-			{	
-				File file = new File(resources_books + book.getID());
+		{				
+				File file = new File(resources_books + book.getID());				
 				if(!file.exists()) file.mkdirs();
-				book.setFileName(mfile.getOriginalFilename());	
-				file = new File(resources_books + book.getID() + "\\" + mfile.getOriginalFilename());
-				try {
-					file.createNewFile();
-					mfile.transferTo(file);
-				} catch (IOException e) {					
-					e.printStackTrace();
-				}				
-			}
-			EntityManager manager = dbService.openDBConnection();
+					if(!mfile.isEmpty())
+					{
+						System.out.println("Mfile: " + mfile.isEmpty() + "  " + mfile.getSize() + book.getPdfName());
+						File delete = new File(resources_books + book.getID() + "\\" + book.getFileName());
+						if(delete.exists()) delete.delete();
+						book.setFileName(mfile.getOriginalFilename());
+						if(pdfFile.isEmpty())book.setPdfName(pdfName);
+						file = new File(resources_books + book.getID() + "\\" + mfile.getOriginalFilename());
+						try
+						{
+							file.createNewFile();
+							mfile.transferTo(file);
+						} catch (IOException e) {					
+							e.printStackTrace();
+						}
+					}
+					if(!pdfFile.isEmpty())
+					{
+						System.out.println("pdfFile: " + pdfFile.isEmpty() + "  " + pdfFile.getSize());
+						File delete = new File(resources_books + book.getID() + "\\" + book.getPdfName());
+						if(delete.exists()) delete.delete();
+						book.setPdfName(pdfFile.getOriginalFilename());
+						if(mfile.isEmpty())book.setFileName(fileName);
+						File pdf = new File(resources_books + book.getID() + "\\"  + pdfFile.getOriginalFilename());
+						try
+						{
+							pdf.createNewFile();
+							pdfFile.transferTo(pdf);					
+						} catch (IOException e) {					
+							e.printStackTrace();
+						}																	
+					}
+					if(pdfFile.isEmpty() && mfile.isEmpty()) 
+					{
+						book.setFileName(fileName);
+						book.setPdfName(pdfName);
+					}
+			EntityManager manager = dbService.openDBConnection();			
 			manager.merge(book);					
 			dbService.closeDBConnection(manager);
 			return "redirect:/book/allBooks";
@@ -172,9 +219,9 @@ public class BookController {
 		Book book = (Book) manager.createQuery("select b from Book b where id=" + id).getSingleResult();
 		File file = new File(resources_books + book.getID());
 		file.delete();
-		manager.remove(book);					
+		manager.remove(book);			
 		dbService.closeDBConnection(manager);
-		return "redirect:/book/allBooks";
+		return "redirect:/book/allBooks?sort=title&pageNo=1&size=4";
 	}
 	
 	@GetMapping(value = "/readBook/{id}")
@@ -208,6 +255,30 @@ public class BookController {
 				contentLength(pdf.length()).
 				body(media);
 	}	
+	
+	@GetMapping(value = "/addBookToAuthorForm")
+	public String addBookToAuthorForm(Model model) 
+	{
+		List<Book> books = bookRepo.findAll();
+		List<Author> authors = authorRepo.findAll();
+		model.addAttribute("authors", authors);
+		model.addAttribute("books", books);
+		return "addBookToAuthorForm";
+	}
+	
+	@PostMapping(value="/addBookToAuthor")
+	public String addBookToAuthor(@RequestParam("authorID") Integer authorID, @RequestParam("bookID") Integer bookID ) 
+	{
+		Book book = bookRepo.findByID(bookID).get();
+		Author author = authorRepo.findByID(authorID);
+		author.addBook(book);
+		book.addAuthor(author);
+		EntityManager manager = dbService.openDBConnection();
+		manager.merge(author);
+		manager.merge(book);
+		dbService.closeDBConnection(manager);
+		return "redirect:/author/allAuthors";
+	}
 	
 
 }

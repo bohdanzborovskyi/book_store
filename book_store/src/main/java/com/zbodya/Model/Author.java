@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -29,18 +30,19 @@ public class Author {
 	@Column(name = "id")
 	private int ID;
 	
+	@Past(message="Date must be in past time")
 	@Column(name = "birthday")
 	@DateTimeFormat(iso = ISO.DATE)
 	LocalDate birthday;
 	
-	@NotBlank
+	@NotBlank(message="Name must not be empty")
 	@Column(name = "name")
 	private String name;
 	
+	@NotBlank(message="Description must not be empty")
 	@Column(name = "description")
-	private String description;
-	
-	@NotNull
+	private String description;	
+
 	@Column(name = "image")
 	private String image;
 	
@@ -53,12 +55,11 @@ public class Author {
 	public Author() {}
 	
 
-	public Author(LocalDate birthday, @NotBlank String name, String description, String image) {
+	public Author(LocalDate birthday, String name, String description) {
 		super();
 		this.birthday = birthday;
 		this.name = name;
 		this.description = description;
-		this.image = image;
 	}
 
 	public int getID() {
@@ -115,6 +116,11 @@ public class Author {
 
 	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
+	}
+	
+	public void addBook(Book book) 
+	{
+		this.books.add(book);
 	}
 	
 	

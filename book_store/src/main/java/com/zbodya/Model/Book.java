@@ -122,7 +122,7 @@ public class Book
 		this.publishers = publishers;
 	}
 
-	public List<Author> getAuthor() {
+	public List<Author> getAuthors() {
 		return authors;
 	}
 
@@ -165,6 +165,8 @@ public class Book
 	public void setPdfName(String pdfName) {
 		this.pdfName = pdfName;
 	}
+	
+	
 	
 	
 }

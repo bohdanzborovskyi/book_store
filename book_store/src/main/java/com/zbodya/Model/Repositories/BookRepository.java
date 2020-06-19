@@ -1,5 +1,6 @@
 package com.zbodya.Model.Repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,5 +17,7 @@ public interface BookRepository extends JpaRepository<Book,Long>
 	Page<Book> findAll(Pageable pageable);
 	Page<Book> findByTitle(Pageable pageable,String title);
 	Page<Book> findByDescribtion(Pageable pageable,String describtion);
-
+	Page<Book> findByTitleContainingIgnoreCase(Pageable pageable, String title);
+	Page<Book> findByDescribtionContainingIgnoreCase(Pageable pageable, String title);
+	List<Book> findByAuthorsID(Integer ID);
 }

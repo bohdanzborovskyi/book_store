@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<title>All books</title>
+<title>All authors</title>
 </head>
 <body>
 
@@ -36,7 +36,7 @@
 		</ul>
 		<form class="form-inline my-2 my-lg-0" th:action="@{/book/allBooks}">
 			<h4>Sort by:</h4>
-			<select class="form-control ml-1" od="sort" name="sort">
+			<select class="form-control ml-1" id="sort" name="sort">
 				<option th:value="title" th:text="Title"></option>
 				<option th:value="publishDate" th:text="'Publish Date'"></option>			
 			</select>
@@ -55,28 +55,27 @@
 	
 	<div class="container">
 		<div class="row row-cols-3">
-			<div class="col" th:each="book : ${books}">			
+			<div class="col" th:each="author : ${authors}">			
 			<div class="card mx-4 my-4">
-				<img th:src="@{/images/books/{id}/{name}(id=${book.ID},name=${book.fileName})}" class="card-img-top"/>
+				<img th:src="@{/images/authors/{id}/{name}(id=${author.ID},name=${author.image})}" class="card-img-top"/>
 				<div class="card-body">
-				<h2 class="card-title" th:text="${book.title}"> </h2>
-				<h5 class="card-text" th:text="${book.describtion}"></h5>
-				<a th:href="@{/book/editBookForm/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Edit a book  </a>
-				<a th:href="@{/book/deleteBook/{id}(id=${book.ID})}" class="m-1 btn btn-danger btn-circle">Delete a book</a>
-				<a th:href="@{/book/readBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Read a book</a>				
-				<a th:href="@{/book/downloadPDF/{id}(id=${book.ID})}" class="m-1 btn btn-success btn-circle">Get a book </a>	
+				<h2 class="card-title" th:text="${author.name}"> </h2>
+				<h5 class="card-text" th:text="${author.description}"></h5>				
+				<a th:href="@{/author/editAuthorForm/{id}(id=${author.ID})}" class="m-1 btn btn-primary btn-circle">Edit an author  </a>
+				<a th:href="@{/author/deleteAuthor/{id}(id=${author.ID})}" class="m-1 btn btn-danger btn-circle">Delete an author</a>
+				<a th:href="@{/author/authorInfo/{id}(id=${author.ID})}" class="m-1 btn btn-primary btn-circle">Author info</a>							
 				<div class="card-footer">
-      				<small class="text-muted" th:text="'Publication date: ' +  ${book.publishDate}"></small>
+      				<small class="text-muted" th:text="'Birthday date: ' +  ${author.birthday}"></small>
     			</div>							
 				</div>
 			</div>				
 			</div>				
 		</div>			
 		<nav class="ml-4">
-			<ul class="pagination" th:if="${books.totalPages > 0}" th:each="pageNumber: ${pageNumbers}">				
-				<li class="page-item" th:classappend="${pageNumber == (books.number + 1)} ? 'active' : ''">
+			<ul class="pagination" th:if="${authors.totalPages > 0}" th:each="pageNumber: ${pageNumbers}">				
+				<li class="page-item" th:classappend="${pageNumber == (authors.number + 1)} ? 'active' : ''">
 				<div>
-				<a class="page-link" th:href="@{/book/allBooks(size=${books.size},pageNo=${pageNumber},findBy=${findBy},findKey=${findKey},sort=${sort})}" th:text="${pageNumber}"></a></li>
+				<a class="page-link" th:href="@{/author/allAuthors(size=${authors.size},pageNo=${pageNumber},findBy=${findBy},findKey=${findKey},sort=${sort})}" th:text="${pageNumber}"></a></li>
 				</div>				
 			</ul>
 		</nav>			
