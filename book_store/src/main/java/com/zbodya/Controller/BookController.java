@@ -32,8 +32,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zbodya.Model.Author;
 import com.zbodya.Model.Book;
+import com.zbodya.Model.Publisher;
 import com.zbodya.Model.Repositories.AuthorRepository;
 import com.zbodya.Model.Repositories.BookRepository;
+import com.zbodya.Model.Repositories.PublisherRepository;
 import com.zbodya.Service.BookService;
 import com.zbodya.Service.DBService;
 
@@ -51,6 +53,9 @@ public class BookController {
 	@Autowired 
 	AuthorRepository authorRepo;
 	
+	@Autowired 
+	PublisherRepository publisherRepo;
+	
 	@Autowired
 	BookService bookService;	
 	
@@ -58,7 +63,7 @@ public class BookController {
 	@GetMapping(value = "/addBookForm")
 	public String addBookForm(Book book) 
 	{
-		return "addBookForm";
+		return "book/addBookForm";
 	}
 	
 	private final String resources_books = "C:\\Users\\tempadmin2\\git\\book_store_repository\\book_store\\src\\main\\resources\\static\\images\\books\\";
@@ -75,7 +80,7 @@ public class BookController {
 		System.out.println(mFile.getOriginalFilename() + " " + mFile.getSize() + book.getID());
 		if(bindingResult.hasErrors()) 
 		{
-			return "addBookForm";
+			return "book/addBookForm";
 		}
 		else 
 		{	
@@ -139,7 +144,7 @@ public class BookController {
 			List<Integer> pageNumbers = IntStream.rangeClosed(1, books.getTotalPages()).boxed().collect(Collectors.toList());
 			model.addAttribute("pageNumbers", pageNumbers);
 		}		
-		return "allBooks";
+		return "book/allBooks";
 	}
 	
 	@GetMapping(value = "/editBookForm/{id}")
@@ -151,18 +156,19 @@ public class BookController {
 		System.out.println(book.getID());
 		model.addAttribute("book", book);
 		dbService.closeDBConnection(manager);
-		return "editBookForm";
+		return "book/editBookForm";
 	}
 	
 	@PostMapping(value="/editBook/{id}")
 	public String editBook(@PathVariable("id") Integer id, @Valid @ModelAttribute("book")Book book, BindingResult bindingResult, @RequestPart("file")MultipartFile mfile,@RequestPart("pdf")MultipartFile pdfFile, Model model) 
 	{	
+		book.setID(id);
 		String pdfName = bookRepo.findByID(id).get().getPdfName();
 		String fileName = bookRepo.findByID(id).get().getFileName();
 		System.out.println("mfile: " +  mfile.isEmpty() + " pdffile: " + pdfFile.isEmpty() + " " + book.getFileName() + " " + book.getPdfName());
 		if(bindingResult.hasErrors()) 
 		{
-			return "editBookForm";
+			return "book/editBookForm";
 		}
 		else 
 		{				
@@ -231,7 +237,7 @@ public class BookController {
 		Book book = (Book) manager.createQuery("select b from Book b where id=" + id).getSingleResult();
 		model.addAttribute("book", book);
 		dbService.closeDBConnection(manager);
-		return "readBook";
+		return "book/readBook";
 	}
 	
 	@GetMapping(value="/downloadPDF/{id}")
@@ -263,7 +269,7 @@ public class BookController {
 		List<Author> authors = authorRepo.findAll();
 		model.addAttribute("authors", authors);
 		model.addAttribute("books", books);
-		return "addBookToAuthorForm";
+		return "book/addBookToAuthorForm";
 	}
 	
 	@PostMapping(value="/addBookToAuthor")
@@ -275,6 +281,30 @@ public class BookController {
 		book.addAuthor(author);
 		EntityManager manager = dbService.openDBConnection();
 		manager.merge(author);
+		manager.merge(book);
+		dbService.closeDBConnection(manager);
+		return "redirect:/author/allAuthors";
+	}
+	
+	@GetMapping(value = "/addBookToPublisherForm")
+	public String addBookToPublisherForm(Model model) 
+	{
+		List<Book> books = bookRepo.findAll();
+		List<Publisher> publishers = publisherRepo.findAll();
+		model.addAttribute("publishers", publishers);
+		model.addAttribute("books", books);
+		return "book/addBookToPublisherForm";
+	}
+	
+	@PostMapping(value="/addBookToPublisher")
+	public String addBookToPublisher(@RequestParam("publisherID") Integer publisherID, @RequestParam("bookID") Integer bookID ) 
+	{
+		Book book = bookRepo.findByID(bookID).get();
+		Publisher publisher = publisherRepo.findByID(publisherID);
+		publisher.addBook(book);
+		book.addPublisher(publisher);
+		EntityManager manager = dbService.openDBConnection();
+		manager.merge(publisher);
 		manager.merge(book);
 		dbService.closeDBConnection(manager);
 		return "redirect:/author/allAuthors";

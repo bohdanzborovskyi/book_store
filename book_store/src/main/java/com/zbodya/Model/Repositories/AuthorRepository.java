@@ -1,5 +1,7 @@
 package com.zbodya.Model.Repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +18,10 @@ public interface AuthorRepository extends JpaRepository<Author,Long>
 	Page<Author> findByDescriptionContainingIgnoreCase(Pageable pageable, String findKey);
 	
 	Author findByID(Integer ID);
+
+	List<Author> findByPublishersID(int id);
+	
+	
 	
 	
 

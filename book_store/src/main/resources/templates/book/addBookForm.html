@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<title></title>
+<title>Add new book</title>
 </head>
 <body>
-
 
 	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
   		<div class="carousel-inner">
@@ -20,6 +19,7 @@
   		</div>
 	</div>
 
+
 	<nav class="navbar navbar-expand-sm bg-light">
 		<a class="navbar-brand" href="#">Book Store</a>
 		<ul class="navbar-nav mr-auto">
@@ -31,6 +31,14 @@
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
 					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
+					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>					
+				</div>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Authors</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
+					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
 				</div>
 			</li>
 		</ul>		
@@ -41,26 +49,23 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="col-md-6">
-					<form action="#" th:action="@{/book/editBook/{id}(id=${book.ID})}" th:object="${book}" method="post" enctype="multipart/form-data" >
+					<form action="#" th:action="@{/book/addBook}" th:object="${book}" method="post" enctype="multipart/form-data" >
 						<div class="row">
 							<div class="form-group col-md-6">
 								<label for="title" class="col-form-label">Title</label>
-								<input type="text" th:field="*{title}" class="form-control" id="title" />
+								<input type="text" th:field="*{title}" class="form-control" id="title"/>
 								<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="alert alert-danger" role="alert"></div>
-							</div>
-							<div class="form-group col-md-0">
-								<input type="hidden" th:field="*{ID}" class="form-control" id="ID" />
 							</div>
 							<div class="form-group col-md-6">
 								<label for="publishDate" class="col-form-label">Published Date</label>
-								<input type="date" th:field="*{publishDate}" class="form-control" id="publishDate" />
+								<input type="date" th:field="*{publishDate}" class="form-control" id="publishDate"/>
 								<div th:if="${#fields.hasErrors('publishDate')}" th:errors="*{publishDate}" class="alert alert-danger" role="alert"></div>
 							</div>
 							<div class="form-group col-md-6">
 								<label for="describtion" class="col-form-label">Description</label>
-								<input type="text" th:field="*{describtion}" class="form-control" id="describtion" />
+								<input type="text" th:field="*{describtion}" class="form-control" id="describtion"/>
 								<div th:if="${#fields.hasErrors('describtion')}" th:errors="*{describtion}" class="alert alert-danger" role="alert"></div>
-							</div>													
+							</div>							
 							<div class="form-group col-md-6">
 								<label for="file" class="col-form-label">Image of book</label>
 								<input type="file"  class="form-control-file" id="file" name="file"/>		
@@ -70,7 +75,7 @@
 								<input type="file"  class="form-control-file" id="pdf" name="pdf"/>		
 							</div>
 							<div class="form-group col-md-8">
-								<input type="submit" class="btn btn-primary" value="Edit a book">
+								<input type="submit" class="btn btn-primary" value="Add a book">
 							</div>
 						</div>
 					</form>
@@ -78,6 +83,11 @@
 			</div>
 		</div>
 	</div>
+	
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>	
+	
 
 </body>
 </html>

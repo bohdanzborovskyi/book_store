@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<title>Author info</title>
+<title>Add book to author</title>
 </head>
 <body>	
 
@@ -28,8 +28,16 @@
 			<li class="nav-item-dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" th:href="@{/book/allBooks}">All books</a>
+					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
 					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
+					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>					
+				</div>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Authors</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
+					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
 				</div>
 			</li>
 		</ul>
@@ -39,17 +47,17 @@
 	<div class="container">					
 			<div class="card mx-4 my-4">
 				<div class="card-body">
-				<h2 class="card-title">Adding book to Author</h2>
-				<form th:action="@{/book/addBookToAuthor}" method="post">
-					<h4>Select author</h4>
-					<select class="form-control ml-1" id="authorID" name="authorID">
-						<option th:each="author : ${authors}" th:value="${author.ID}" th:text="${author.name}"></option>
+				<h2 class="card-title">Adding book to Publisher</h2>
+				<form th:action="@{/book/addBookToPublisher}" method="post">
+					<h4>Select publisher</h4>
+					<select class="form-control ml-1" id="publisherID" name="publisherID">
+						<option th:each="publisher : ${publishers}" th:value="${publisher.ID}" th:text="${publisher.name}"></option>
 					</select>
 					<h4>Select book</h4>
 					<select class="form-control ml-1" id="bookID" name="bookID">
 						<option th:each="book : ${books}" th:value="${book.ID}" th:text="${book.title}"></option>
 					</select>
-					<button class="btn btn-outline-success py-2 " type="submit">Add author</button>
+					<button class="btn btn-outline-success mx-1 my-2 " type="submit">Add author</button>
 				</form>	
 				</div>
 			</div>	

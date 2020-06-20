@@ -54,7 +54,7 @@ public class AuthorController
 	@GetMapping(value = "/addAuthorForm")
 	public String addAuthorForm(Author author) 
 	{
-		return "addAuthorForm";
+		return "author/addAuthorForm";
 	}
 	
 	@PostMapping(value = "/addAuthor")
@@ -67,7 +67,7 @@ public class AuthorController
 		System.out.println("Errors: " + bindingResult.toString());
 		if(bindingResult.hasErrors()) 
 		{
-			return "addAuthorForm";
+			return "author/addAuthorForm";
 		}
 		else 
 		{	
@@ -118,7 +118,7 @@ public class AuthorController
 			List<Integer> pageNumbers = IntStream.rangeClosed(1, authors.getTotalPages()).boxed().collect(Collectors.toList());
 			model.addAttribute("pageNumbers", pageNumbers);
 		}		
-		return "allAuthors";
+		return "author/allAuthors";
 	}
 	
 	@GetMapping(value = "/editAuthorForm/{id}")
@@ -129,17 +129,18 @@ public class AuthorController
 		System.out.println(author.getID());
 		model.addAttribute("author", author);
 		dbService.closeDBConnection(manager);
-		return "editAuthorForm";
+		return "author/editAuthorForm";
 	}
 	
 	@PostMapping(value="/editAuthor/{id}")
 	public String editAuthor(@PathVariable("id") Integer id, @Valid @ModelAttribute("author")Author author, BindingResult bindingResult, @RequestPart("file")MultipartFile mfile, Model model) 
 	{			
 		String fileName = authorRepo.findByID(id).getImage();
+		author.setID(id);
 		System.out.println("ID: " + author.getID());
 		if(bindingResult.hasErrors()) 
 		{
-			return "editAuthorForm";
+			return "author/editAuthorForm";
 		}
 		else 
 		{				
@@ -160,8 +161,7 @@ public class AuthorController
 							e.printStackTrace();
 						}
 					}					
-			EntityManager manager = dbService.openDBConnection();		
-			author.setID(id);
+			EntityManager manager = dbService.openDBConnection();				
 			manager.merge(author);					
 			dbService.closeDBConnection(manager);
 			return "redirect:/author/allAuthors";
@@ -188,9 +188,8 @@ public class AuthorController
 		model.addAttribute("author", author);
 		List<Book> books = bookRepo.findByAuthorsID(author.getID());
 		model.addAttribute("books", books);
-		System.out.println("Books " + books.toString());
 		dbService.closeDBConnection(manager);
-		return "authorInfo";
+		return "author/authorInfo";
 	}
 	
 }

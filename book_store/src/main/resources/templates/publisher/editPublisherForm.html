@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<title>Add a publisher</title>
+</head>
+<body>
+
+
+	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  		<div class="carousel-inner">
+    		<div class="carousel-item active">
+    		    <img th:src="@{/images/service/library.jpeg}" width="1200px" height="720px" class="d-block w-100" >
+    		    <div class="carousel-caption d-none d-md-block">
+        			<h5>Welcome in Book Store</h5>
+        			<p>Only books matter</p>
+      			</div>
+    		</div>    		
+  		</div>
+	</div>
+
+	<nav class="navbar navbar-expand-sm bg-light">
+		<a class="navbar-brand" href="#">Book Store</a>
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/book/allBooks(findReq='false')}">Main</a>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
+					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
+					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>					
+				</div>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Authors</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
+					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
+				</div>
+			</li>
+		</ul>		
+	</nav>
+
+	<div class="container my-5">
+		<h3>Add new Book</h3>
+		<div class="card">
+			<div class="card-body">
+				<div class="col-md-6">
+					<form action="#" th:action="@{/publisher/editPublisher/{id}(id=${publisher.ID})}" th:object="${publisher}" method="post" enctype="multipart/form-data" >
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label for="name" class="col-form-label">Name</label>
+								<input type="text" th:field="*{name}" class="form-control" id="name"/>
+								<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger" role="alert"></div>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="established" class="col-form-label">Established Date</label>
+								<input type="date" th:field="*{established}" class="form-control" id="bestablished"/>
+								<div th:if="${#fields.hasErrors('established')}" th:errors="*{established}" class="alert alert-danger" role="alert"></div>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="description" class="col-form-label">Description</label>
+								<input type="text" th:field="*{description}" class="form-control" id="description"/>
+								<div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert alert-danger" role="alert"></div>
+							</div>							
+							<div class="form-group col-md-6">
+								<label for="file" class="col-form-label">Image of author</label>
+								<input type="file"  class="form-control-file" id="file" name="file"/>		
+							</div>
+							<div class="form-group col-md-8">
+								<input type="submit" class="btn btn-primary" value="Add a publisher">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

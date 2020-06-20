@@ -31,22 +31,30 @@
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
 					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
+					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>					
+				</div>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Authors</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
+					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
 				</div>
 			</li>
 		</ul>
-		<form class="form-inline my-2 my-lg-0" th:action="@{/book/allBooks}">
+		<form class="form-inline my-2 my-lg-0" th:action="@{/author/allAuthors}">
 			<h4>Sort by:</h4>
 			<select class="form-control ml-1" id="sort" name="sort">
-				<option th:value="title" th:text="Title"></option>
-				<option th:value="publishDate" th:text="'Publish Date'"></option>			
+				<option th:value="name" th:text="Name"></option>
+				<option th:value="description" th:text="'Description'"></option>			
 			</select>
 			<button class="btn btn-outline-success mx-2" type="submit">Sort</button>
 		</form>
-		<form class="form-inline my-2 my-lg-0" th:action="@{/book/allBooks}" >
+		<form class="form-inline my-2 my-lg-0" th:action="@{/author/allAuthors}" >
 		<h4>Find by:</h4>
 		<select class="form-control ml-1" id="findBy" name="findBy">
-			<option th:value="title" th:text="Title"></option>
-			<option th:value="describtion" th:text="Describtion"></option>
+			<option th:value="name" th:text="Name"></option>
+			<option th:value="description" th:text="Description"></option>
 		</select>		
         	<input id="findKey" name="findKey" class="form-control mr-sm-2 pr-2 " type="search" placeholder="Search" aria-label="Search">
         	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -55,28 +63,29 @@
 	
 	<div class="container">
 		<div class="row row-cols-3">
-			<div class="col" th:each="author : ${authors}">			
+			<div class="col" th:each="publisher : ${publishers}">			
 			<div class="card mx-4 my-4">
-				<img th:src="@{/images/authors/{id}/{name}(id=${author.ID},name=${author.image})}" class="card-img-top"/>
+				<img th:src="@{/images/publishers/{id}/{name}(id=${publisher.ID},name=${publisher.image})}" class="card-img-top"/>
 				<div class="card-body">
-				<h2 class="card-title" th:text="${author.name}"> </h2>
-				<h5 class="card-text" th:text="${author.description}"></h5>				
-				<a th:href="@{/author/editAuthorForm/{id}(id=${author.ID})}" class="m-1 btn btn-primary btn-circle">Edit an author  </a>
-				<a th:href="@{/author/deleteAuthor/{id}(id=${author.ID})}" class="m-1 btn btn-danger btn-circle">Delete an author</a>
-				<a th:href="@{/author/authorInfo/{id}(id=${author.ID})}" class="m-1 btn btn-primary btn-circle">Author info</a>							
+				<h2 class="card-title" th:text="${publisher.name}"> </h2>
+				<h5 class="card-text" th:text="${publisher.description}"></h5>
+				<h5 class="card-text" th:if="${publisher.books.size()>0}" th:text="'Books: ' + ${publisher.books.size()}"></h5>				
+				<a th:href="@{/publisher/editPublisherForm/{id}(id=${publisher.ID})}" class="m-1 btn btn-primary btn-circle">Edit a publisher </a>
+				<a th:href="@{/publisher/deletePublisher/{id}(id=${publisher.ID})}" class="m-1 btn btn-danger btn-circle">Delete a publisher</a>
+				<a th:href="@{/publisher/publisherInfo/{id}(id=${publisher.ID})}" class="m-1 btn btn-primary btn-circle">Publisher info</a>							
 				<div class="card-footer">
-      				<small class="text-muted" th:text="'Birthday date: ' +  ${author.birthday}"></small>
+      				<small class="text-muted" th:text="'Established date: ' +  ${publisher.established}"></small>
     			</div>							
 				</div>
 			</div>				
 			</div>				
 		</div>			
 		<nav class="ml-4">
-			<ul class="pagination" th:if="${authors.totalPages > 0}" th:each="pageNumber: ${pageNumbers}">				
-				<li class="page-item" th:classappend="${pageNumber == (authors.number + 1)} ? 'active' : ''">
+			<ul class="pagination" th:if="${publishers.totalPages > 0}" th:each="pageNumber: ${pageNumbers}">				
+				<li class="page-item" th:classappend="${pageNumber == (publishers.number + 1)} ? 'active' : ''">
 				<div>
-				<a class="page-link" th:href="@{/author/allAuthors(size=${authors.size},pageNo=${pageNumber},findBy=${findBy},findKey=${findKey},sort=${sort})}" th:text="${pageNumber}"></a></li>
-				</div>				
+				<a class="page-link" th:href="@{/publisher/allPublishers(size=${publishers.size},pageNo=${pageNumber},findBy=${findBy},findKey=${findKey},sort=${sort})}" th:text="${pageNumber}"></a>
+				</div></li>			
 			</ul>
 		</nav>			
 	</div> 

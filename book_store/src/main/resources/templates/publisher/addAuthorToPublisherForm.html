@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<title>Author info</title>
+<title>Add book to author</title>
 </head>
 <body>	
 
@@ -28,8 +28,16 @@
 			<li class="nav-item-dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" th:href="@{/book/allBooks}">All books</a>
+					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
 					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
+					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>					
+				</div>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Authors</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
+					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
 				</div>
 			</li>
 		</ul>
@@ -38,35 +46,21 @@
 	
 	<div class="container">					
 			<div class="card mx-4 my-4">
-				<div class="col-4  mx-auto mt-3"><img th:src="@{/images/authors/{id}/{name}(id=${author.ID},name=${author.image})}" class="card-img-top" width="150px" height="150px"/></div>
 				<div class="card-body">
-				<div class="d-flex justify-content-center"><h2 class="card-title" th:text="${author.name}"> </h2></div>					
+				<h2 class="card-title">Adding author to publisher</h2>
+				<form th:action="@{/publisher/addAuthorToPublisher}" method="post">
+					<h4>Select publisher</h4>
+					<select class="form-control ml-1" id="publisherID" name="publisherID">
+						<option th:each="publisher : ${publishers}" th:value="${publisher.ID}" th:text="${publisher.name}"></option>
+					</select>
+					<h4>Select book</h4>
+					<select class="form-control ml-1" id="authorID" name="authorID">
+						<option th:each="author : ${authors}" th:value="${author.ID}" th:text="${author.name}"></option>
+					</select>
+					<button class="btn btn-outline-success mx-1 my-2 " type="submit">Add author</button>
+				</form>	
 				</div>
-				<div class="card-footer">
-      				<small class="text-muted" th:text="'Birthday date: ' +  ${author.birthday}"></small>
-    			</div>	
 			</div>	
-	</div>
-	
-	<div class="container">
-		<div class="row row-cols-3">
-			<div class="col" th:each="book : ${books}">			
-			<div class="card mx-4 my-4">
-				<img th:src="@{/images/books/{id}/{name}(id=${book.ID},name=${book.fileName})}" class="card-img-top"/>
-				<div class="card-body">
-				<h2 class="card-title" th:text="${book.title}"> </h2>
-				<h5 class="card-text" th:text="${book.describtion}"></h5>				
-				<a th:href="@{/book/editBookForm/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Edit a book  </a>
-				<a th:href="@{/book/deleteBook/{id}(id=${book.ID})}" class="m-1 btn btn-danger btn-circle">Delete a book</a>
-				<a th:href="@{/book/readBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Read a book</a>				
-				<a th:href="@{/book/downloadPDF/{id}(id=${book.ID})}" class="m-1 btn btn-success btn-circle">Get a book </a>	
-				<div class="card-footer">
-      				<small class="text-muted" th:text="'Publication date: ' +  ${book.publishDate}"></small>
-    			</div>							
-				</div>
-			</div>				
-			</div>				
-		</div>			
 	</div>
 	
 	

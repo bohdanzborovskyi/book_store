@@ -120,8 +120,32 @@ public class Author {
 	
 	public void addBook(Book book) 
 	{
+		if(books==null) 
+		{
+			books = new ArrayList<Book>();
+		}
 		this.books.add(book);
 	}
+	
+	public void deleteBook(Book book) 
+	{
+		books.remove(book);
+	}
+	
+	public void addPublisher(Publisher publisher) 
+	{
+		if(publishers==null) 
+		{
+			publishers = new ArrayList<Publisher>();
+		}
+		this.publishers.add(publisher);
+	}
+	
+	public void deletePublisher(Publisher publisher) 
+	{
+		publishers.remove(publisher);
+	}
+	
 	
 	
 	

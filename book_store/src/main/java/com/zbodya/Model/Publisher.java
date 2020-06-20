@@ -40,6 +40,9 @@ public class Publisher
 	@Column(name = "description")
 	private String description;
 	
+	@Column(name = "image")
+	private String image;
+	
 	@ManyToMany(mappedBy = "publishers")
 	private List<Book> books;
 	
@@ -118,6 +121,28 @@ public class Publisher
 	public void deleteAuthor(Author author) 
 	{
 		authors.remove(author);
+	}
+	
+	public void addBook(Book book) 
+	{
+		if(books == null) 
+		{
+			books = new ArrayList<Book>();
+		}
+		books.add(book);
+	}
+	
+	public void deleteBook(Book book) 
+	{
+		books.remove(book);
+	}
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	
