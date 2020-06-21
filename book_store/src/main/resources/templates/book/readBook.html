@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<title>All books</title>
+<title>Read a book</title>
 </head>
 <body>	
 
@@ -21,16 +21,17 @@
 
 	<nav class="navbar navbar-expand-sm bg-light">
 		<a class="navbar-brand" href="#">Book Store</a>
-		<ul class="navbar-nav">
+		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link" th:href="@{/book/allBooks}">Main</a>
+				<a class="nav-link" th:href="@{/book/allBooks(findReq='false')}">Main</a>
 			</li>
 			<li class="nav-item-dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
 					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
-					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>					
+					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>	
+					<a class="dropdown-item" th:href="@{/book/addBookToPublisherForm}">Add book to publisher</a>										
 				</div>
 			</li>
 			<li class="nav-item-dropdown">
@@ -38,6 +39,14 @@
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
 					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
+				</div>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Publishers</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/publisher/allPublishers(findReq='false')}">All publishers</a>
+					<a class="dropdown-item" th:href="@{/publisher/addPublisherForm}">Add new publisher</a>
+					<a class="dropdown-item" th:href="@{/publisher/addAuthorToPublisherForm}">Add author to publisher</a>						
 				</div>
 			</li>
 		</ul>

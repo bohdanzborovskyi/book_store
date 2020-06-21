@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<title>All authors</title>
+<title>All publishers</title>
 </head>
 <body>
 
@@ -31,7 +31,8 @@
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
 					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
-					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>					
+					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>	
+					<a class="dropdown-item" th:href="@{/book/addBookToPublisherForm}">Add book to publisher</a>										
 				</div>
 			</li>
 			<li class="nav-item-dropdown">
@@ -39,6 +40,14 @@
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
 					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
+				</div>
+			</li>
+			<li class="nav-item-dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Publishers</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" th:href="@{/publisher/allPublishers(findReq='false')}">All publishers</a>
+					<a class="dropdown-item" th:href="@{/publisher/addPublisherForm}">Add new publisher</a>
+					<a class="dropdown-item" th:href="@{/publisher/addAuthorToPublisherForm}">Add author to publisher</a>						
 				</div>
 			</li>
 		</ul>

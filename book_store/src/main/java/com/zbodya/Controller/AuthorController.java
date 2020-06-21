@@ -27,8 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zbodya.Model.Author;
 import com.zbodya.Model.Book;
+import com.zbodya.Model.Publisher;
 import com.zbodya.Model.Repositories.AuthorRepository;
 import com.zbodya.Model.Repositories.BookRepository;
+import com.zbodya.Model.Repositories.PublisherRepository;
 import com.zbodya.Service.AuthorService;
 import com.zbodya.Service.DBService;
 
@@ -44,6 +46,9 @@ public class AuthorController
 	
 	@Autowired 
 	BookRepository bookRepo;
+	
+	@Autowired
+	PublisherRepository publisherRepo;
 	
 	@Autowired
 	AuthorService authorService;
@@ -114,8 +119,18 @@ public class AuthorController
 		model.addAttribute("authors", authors);
 		if(authors.getTotalPages()>0) 
 		{
+			List<Integer> pageNumbers;
 			System.out.println("Pages: " + authors.getTotalPages() + " " + authors.getNumber());
-			List<Integer> pageNumbers = IntStream.rangeClosed(1, authors.getTotalPages()).boxed().collect(Collectors.toList());
+			if(authors.getTotalPages()>5 && authors.getNumber()>1 && ((authors.getNumber()+3)<authors.getTotalPages())) 
+			{
+				pageNumbers = IntStream.rangeClosed(authors.getNumber()-1, authors.getNumber()+3).boxed().collect(Collectors.toList());
+			}else if(authors.getTotalPages()>5 && authors.getNumber()>2 && ((authors.getNumber()+3)>=authors.getTotalPages())) 
+			{
+				pageNumbers = IntStream.rangeClosed(authors.getNumber()-1, authors.getTotalPages()).boxed().collect(Collectors.toList());
+			}else 
+			{
+				pageNumbers = IntStream.rangeClosed(1, 4).boxed().collect(Collectors.toList());
+			}
 			model.addAttribute("pageNumbers", pageNumbers);
 		}		
 		return "author/allAuthors";
@@ -188,8 +203,38 @@ public class AuthorController
 		model.addAttribute("author", author);
 		List<Book> books = bookRepo.findByAuthorsID(author.getID());
 		model.addAttribute("books", books);
+		List<Publisher> publishers = publisherRepo.findByAuthorsID(author.getID());
+		model.addAttribute("publishers", publishers);
 		dbService.closeDBConnection(manager);
 		return "author/authorInfo";
+	}
+	
+	@GetMapping(value = "/deleteBook/{bookid}")
+	public String deleteBook(@PathVariable Integer bookid, @RequestParam("authorid")Integer authorid) 
+	{
+		Author author = authorRepo.findByID(authorid);
+		Book book = bookRepo.findByID(bookid).get();
+		author.deleteBook(book);
+		book.deleteAuthor(author);
+		EntityManager manager = dbService.openDBConnection();
+		manager.merge(book);
+		manager.merge(author);
+		dbService.closeDBConnection(manager);
+		return "redirect:/author/authorInfo/" + authorid;
+	}
+	
+	@GetMapping(value = "/deletePublisher/{publisherid}")
+	public String deleteAuthor(@PathVariable Integer publisherid, @RequestParam("authorid")Integer authorid) 
+	{
+		Publisher publisher = publisherRepo.findByID(publisherid);
+		Author author = authorRepo.findByID(authorid);
+		publisher.deleteAuthor(author);
+		author.deletePublisher(publisher);
+		EntityManager manager = dbService.openDBConnection();
+		manager.merge(author);
+		manager.merge(publisher);
+		dbService.closeDBConnection(manager);
+		return "redirect:/author/authorInfo/" + authorid;
 	}
 	
 }

@@ -117,9 +117,18 @@ public class PublisherController
 		model.addAttribute("publishers", publishers);
 		if(publishers.getTotalPages()>0) 
 		{
-//			System.out.println("Pages: " + authors.getTotalPages() + " " + authors.getNumber());
-			List<Integer> pageNumbers = IntStream.rangeClosed(1, publishers.getTotalPages()).boxed().collect(Collectors.toList());
-			model.addAttribute("pageNumbers", pageNumbers);
+			List<Integer> pageNumbers;
+			System.out.println("Pages: " + publishers.getTotalPages() + " " + publishers.getNumber());
+			if(publishers.getTotalPages()>5 && publishers.getNumber()>1 && ((publishers.getNumber()+3)<publishers.getTotalPages())) 
+			{
+				pageNumbers = IntStream.rangeClosed(publishers.getNumber()-1, publishers.getNumber()+3).boxed().collect(Collectors.toList());
+			}else if(publishers.getTotalPages()>5 && publishers.getNumber()>2 && ((publishers.getNumber()+3)>=publishers.getTotalPages())) 
+			{
+				pageNumbers = IntStream.rangeClosed(publishers.getNumber()-1, publishers.getTotalPages()).boxed().collect(Collectors.toList());
+			}else 
+			{
+				pageNumbers = IntStream.rangeClosed(1, 4).boxed().collect(Collectors.toList());
+			}			model.addAttribute("pageNumbers", pageNumbers);
 		}		
 		return "publisher/allPublishers";
 	}
@@ -218,5 +227,33 @@ public class PublisherController
 		manager.merge(author);
 		dbService.closeDBConnection(manager);
 		return "redirect:/publisher/allPublishers";
+	}
+	
+	@GetMapping(value = "/deleteAuthor/{authorid}")
+	public String deleteAuthor(@PathVariable Integer authorid, @RequestParam("publisherid")Integer publisherid) 
+	{
+		Publisher publisher = publisherRepo.findByID(publisherid);
+		Author author = authorRepo.findByID(authorid);
+		publisher.deleteAuthor(author);
+		author.deletePublisher(publisher);
+		EntityManager manager = dbService.openDBConnection();
+		manager.merge(author);
+		manager.merge(publisher);
+		dbService.closeDBConnection(manager);
+		return "redirect:/publisher/publisherInfo/" + publisherid;
+	}
+	
+	@GetMapping(value = "/deleteBook/{bookid}")
+	public String deleteBook(@PathVariable Integer bookid, @RequestParam("publisherid")Integer publisherid) 
+	{
+		Publisher publisher = publisherRepo.findByID(publisherid);
+		Book book = bookRepo.findByID(bookid).get();
+		publisher.deleteBook(book);
+		book.deletePublisher(publisher);
+		EntityManager manager = dbService.openDBConnection();
+		manager.merge(book);
+		manager.merge(publisher);
+		dbService.closeDBConnection(manager);
+		return "redirect:/publisher/publisherInfo/" + publisherid;
 	}
 }

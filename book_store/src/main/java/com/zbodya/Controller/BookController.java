@@ -140,8 +140,18 @@ public class BookController {
 		model.addAttribute("books", books);
 		if(books.getTotalPages()>0) 
 		{
+			List<Integer> pageNumbers;
 			System.out.println("Pages: " + books.getTotalPages() + " " + books.getNumber());
-			List<Integer> pageNumbers = IntStream.rangeClosed(1, books.getTotalPages()).boxed().collect(Collectors.toList());
+			if(books.getTotalPages()>5 && books.getNumber()>1 && ((books.getNumber()+3)<books.getTotalPages())) 
+			{
+				pageNumbers = IntStream.rangeClosed(books.getNumber()-1, books.getNumber()+3).boxed().collect(Collectors.toList());
+			}else if(books.getTotalPages()>5 && books.getNumber()>2 && ((books.getNumber()+3)>=books.getTotalPages())) 
+			{
+				pageNumbers = IntStream.rangeClosed(books.getNumber()-1, books.getTotalPages()).boxed().collect(Collectors.toList());
+			}else 
+			{
+				pageNumbers = IntStream.rangeClosed(1, 4).boxed().collect(Collectors.toList());
+			}
 			model.addAttribute("pageNumbers", pageNumbers);
 		}		
 		return "book/allBooks";
