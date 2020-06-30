@@ -50,6 +50,9 @@
 					<a class="dropdown-item" th:href="@{/publisher/addAuthorToPublisherForm}">Add author to publisher</a>						
 				</div>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/logout}">Logout</a>
+			</li> 
 		</ul>
 		<form class="form-inline my-2 my-lg-0" th:action="@{/book/allBooks}">
 			<h4>Sort by:</h4>
@@ -67,7 +70,7 @@
 		</select>		
         	<input id="findKey" name="findKey" class="form-control mr-sm-2 pr-2 " type="search" placeholder="Search" aria-label="Search">
         	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    	</form>    	
+    	</form>     	  	
 	</nav>	
 	
 	<div class="container">
@@ -78,8 +81,8 @@
 				<div class="card-body">
 				<h2 class="card-title" th:text="${book.title}"> </h2>
 				<h5 class="card-text" th:text="${book.describtion}"></h5>
-				<a th:href="@{/book/editBookForm/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Edit a book  </a>
-				<a th:href="@{/book/deleteBook/{id}(id=${book.ID})}" class="m-1 btn btn-danger btn-circle">Delete a book</a>
+				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/book/editBookForm/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Edit a book  </a>
+				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/book/deleteBook/{id}(id=${book.ID})}" class="m-1 btn btn-danger btn-circle">Delete a book</a>
 				<a th:href="@{/book/readBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Read a book</a>				
 				<a th:href="@{/book/downloadPDF/{id}(id=${book.ID})}" class="m-1 btn btn-success btn-circle">Get a book </a>	
 				<div class="card-footer">

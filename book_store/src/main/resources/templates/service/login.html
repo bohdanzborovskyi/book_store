@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<title>Publisher info</title>
+</head>
+<body>	
+
+	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  		<div class="carousel-inner">
+    		<div class="carousel-item active">
+    		    <img th:src="@{/images/service/library.jpeg}" width="1200px" height="720px" class="d-block w-100" >
+    		    <div class="carousel-caption d-none d-md-block">
+        			<h5>Welcome in Book Store</h5>
+        			<p>Only books matter</p>
+      			</div>
+    		</div>    		
+  		</div>
+	</div>
+
+	<nav class="navbar navbar-expand-sm bg-light">
+		<a class="navbar-brand" href="#">Book Store</a>
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/login}">Login</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/registration}">Registration</a>
+			</li>
+		</ul>
+	</nav>
+
+	
+	<div class="container">					
+		<h3>Login to Bookstore</h3>
+		<div class="card">
+			<div class="card-body">
+				<div class="col-md-6">
+					<form action="#" th:action="@{/login}"  method="post">
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label for="username" class="col-form-label">Username</label>
+								<input type="text" class="form-control" name="username"/>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="password" class="col-form-label">Password</label>
+								<input type="password" class="form-control" name="password"/>
+							</div>							
+							<div class="form-group col-md-8">
+								<input type="submit" class="btn btn-primary" value="Login">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	 
+</body>
+</html>
