@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<title>Author info</title>
+<title th:utext="#{author_info}"></title>
 </head>
 <body>	
 
@@ -12,8 +12,8 @@
     		<div class="carousel-item active">
     		    <img th:src="@{/images/service/library.jpeg}" width="1200px" height="720px" class="d-block w-100" >
     		    <div class="carousel-caption d-none d-md-block">
-        			<h5>Welcome in Book Store</h5>
-        			<p>Only books matter</p>
+        			<h5 th:utext="#{welcome}"></h5>
+        			<p th:utext="#{title}"></p>
       			</div>
     		</div>    		
   		</div>
@@ -23,30 +23,30 @@
 		<a class="navbar-brand" href="#">Book Store</a>
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link" th:href="@{/book/allBooks(findReq='false')}">Main</a>
+				<a class="nav-link" th:href="@{/book/allBooks(findReq='false')}" th:utext="#{main}"></a>
 			</li>
 			<li class="nav-item-dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{books}"></a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
-					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
-					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>	
-					<a class="dropdown-item" th:href="@{/book/addBookToPublisherForm}">Add book to publisher</a>										
+					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}" th:utext="#{all_books}"></a>
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/book/addBookForm}" th:utext="#{add_book}"></a>
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/book/addBookToAuthorForm}" th:utext="#{add_book_author}"></a>	
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/book/addBookToPublisherForm}" th:utext="#{add_book_publisher}"></a>										
 				</div>
 			</li>
 			<li class="nav-item-dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Authors</a>
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{authors}"></a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
-					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
+					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}" th:utext="#{all_authors}"></a>
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/author/addAuthorForm}" th:utext="#{add_author}"></a>
 				</div>
 			</li>
 			<li class="nav-item-dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Publishers</a>
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{publishers}"></a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" th:href="@{/publisher/allPublishers(findReq='false')}">All publishers</a>
-					<a class="dropdown-item" th:href="@{/publisher/addPublisherForm}">Add new publisher</a>
-					<a class="dropdown-item" th:href="@{/publisher/addAuthorToPublisherForm}">Add author to publisher</a>						
+					<a class="dropdown-item" th:href="@{/publisher/allPublishers(findReq='false')}" th:utext="#{all_publishers}"></a>
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/publisher/addPublisherForm}" th:utext="#{add_publisher}"></a>
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/publisher/addAuthorToPublisherForm}" th:utext="#{add_author_publisher}"></a>						
 				</div>
 			</li>
 		</ul>
@@ -58,17 +58,17 @@
 				<div class="col-4  mx-auto mt-3"><img th:src="@{/images/authors/{id}/{name}(id=${author.ID},name=${author.image})}" class="card-img-top" width="150px" height="150px"/></div>
 				<div class="card-body">
 				<div class="d-flex justify-content-center"><h2 class="card-title" th:text="${author.name}"> </h2></div>	
-				<h4 class="text-center">Publishers</h4>
+				<h4 class="text-center" th:utext="#{publishers}"></h4>
 				<ul class="list-group"  th:each="publisher : ${publishers}">
 					<li class="list-group-item">
 						<img class="rounded-circle" th:src="@{/images/publishers/{id}/{fileName}(id=${publisher.ID},fileName=${publisher.image})}" width="50px" height="50px">
 						<a th:href="@{/publisher/publisherInfo/{id}(id=${publisher.ID})}" th:text="${publisher.name}"></a>
-						<a class="btn btn-danger float-right" th:href="@{/author/deletePublisher/{publisherid}(publisherid=${publisher.ID},authorid=${author.ID})}" th:text="'Delete from author'"></a>
+						<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-danger float-right" th:href="@{/author/deletePublisher/{publisherid}(publisherid=${publisher.ID},authorid=${author.ID})}" th:text="'Delete from author'"></a>
 					</li>
 				</ul>				
 				</div>
 				<div class="card-footer">
-      				<small class="text-muted" th:text="'Birthday date: ' +  ${author.birthday}"></small>
+      				<small class="text-muted" th:text=" #{birthday} + ': ' +  ${author.birthday}"></small>
     			</div>	
 			</div>	
 	</div>
@@ -81,11 +81,11 @@
 				<div class="card-body">
 				<h2 class="card-title" th:text="${book.title}"> </h2>
 				<h5 class="card-text" th:text="${book.describtion}"></h5>				
-				<a th:href="@{/author/deleteBook/{bookid}(bookid=${book.ID},authorid=${author.ID})}" class="m-1 btn btn-danger btn-circle">Delete a book from author</a>
-				<a th:href="@{/book/readBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle">Read a book</a>				
-				<a th:href="@{/book/downloadPDF/{id}(id=${book.ID})}" class="m-1 btn btn-success btn-circle">Get a book </a>	
+				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/author/deleteBook/{bookid}(bookid=${book.ID},authorid=${author.ID})}" class="m-1 btn btn-danger btn-circle" th:utext="#{delete_book_author}"></a>
+				<a th:href="@{/book/readBook/{id}(id=${book.ID})}" class="m-1 btn btn-primary btn-circle" th:utext="#{read_book}"></a>				
+				<a th:href="@{/book/downloadPDF/{id}(id=${book.ID})}" class="m-1 btn btn-success btn-circle" th:utext="#{get_book}"></a>	
 				<div class="card-footer">
-      				<small class="text-muted" th:text="'Publication date: ' +  ${book.publishDate}"></small>
+      				<small class="text-muted" th:text=" #{publication_date} + ': ' +  ${book.publishDate}"></small>
     			</div>							
 				</div>
 			</div>				

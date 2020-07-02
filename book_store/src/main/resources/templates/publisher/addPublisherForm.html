@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<title>Add new publisher</title>
+<title th:utext="#{add_publisher}"></title>
 </head>
 <body>
 
@@ -12,8 +12,8 @@
     		<div class="carousel-item active">
     		    <img th:src="@{/images/service/library.jpeg}" width="1200px" height="720px" class="d-block w-100" >
     		    <div class="carousel-caption d-none d-md-block">
-        			<h5>Welcome in Book Store</h5>
-        			<p>Only books matter</p>
+        			<h5 th:utext="#{welcome}"></h5>
+        			<p th:utext="#{title}"></p>
       			</div>
     		</div>    		
   		</div>
@@ -24,65 +24,64 @@
 		<a class="navbar-brand" href="#">Book Store</a>
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link" th:href="@{/book/allBooks(findReq='false')}">Main</a>
+				<a class="nav-link" th:href="@{/book/allBooks(findReq='false')}" th:utext="#{main}"></a>
 			</li>
 			<li class="nav-item-dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"th:utext="#{books}"></a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}">All books</a>
-					<a class="dropdown-item" th:href="@{/book/addBookForm}">Add new book</a>
-					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}">Add book to author</a>	
-					<a class="dropdown-item" th:href="@{/book/addBookToPublisherForm}">Add book to publisher</a>										
+					<a class="dropdown-item" th:href="@{/book/allBooks(findReq='false')}" th:utext="#{all_books}"></a>
+					<a class="dropdown-item" th:href="@{/book/addBookForm}" th:utext="#{add_book}"></a>
+					<a class="dropdown-item" th:href="@{/book/addBookToAuthorForm}" th:utext="#{add_book_author}"></a>	
+					<a class="dropdown-item" th:href="@{/book/addBookToPublisherForm}" th:utext="#{add_book_publisher}"></a>										
 				</div>
 			</li>
 			<li class="nav-item-dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Authors</a>
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{authors}"></a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}">All authors</a>
-					<a class="dropdown-item" th:href="@{/author/addAuthorForm}">Add new author</a>
+					<a class="dropdown-item" th:href="@{/author/allAuthors(findReq='false')}" th:utext="#{all_authors}">All authors</a>
+					<a class="dropdown-item" th:href="@{/author/addAuthorForm}" th:utext="#{add_author}">r</a>
 				</div>
 			</li>
 			<li class="nav-item-dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Publishers</a>
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{publishers}"></a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" th:href="@{/publisher/allPublishers(findReq='false')}">All publishers</a>
-					<a class="dropdown-item" th:href="@{/publisher/addPublisherForm}">Add new publisher</a>
-					<a class="dropdown-item" th:href="@{/publisher/addAuthorToPublisherForm}">Add author to publisher</a>						
+					<a class="dropdown-item" th:href="@{/publisher/allPublishers(findReq='false')}" th:utext="#{all_publishers}"></a>
+					<a class="dropdown-item" th:href="@{/publisher/addPublisherForm}" th:utext="#{add_publisher}"></a>
+					<a class="dropdown-item" th:href="@{/publisher/addAuthorToPublisherForm}" th:utext="#{add_author_publisher}"></a>						
 				</div>
 			</li>
 		</ul>
 	</nav>
-
 	
 
 	<div class="container my-5">
-		<h3>Add new Book</h3>
+		<h3 th:utext="#{add_book}"></h3>
 		<div class="card">
 			<div class="card-body">
 				<div class="col-md-6">
 					<form action="#" th:action="@{/publisher/addPublisher}" th:object="${publisher}" method="post" enctype="multipart/form-data" >
 						<div class="row">
 							<div class="form-group col-md-6">
-								<label for="name" class="col-form-label">Name</label>
+								<label for="name" class="col-form-label" th:utext="#{name}"></label>
 								<input type="text" th:field="*{name}" class="form-control" id="name"/>
 								<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger" role="alert"></div>
 							</div>
 							<div class="form-group col-md-6">
-								<label for="established" class="col-form-label">Established Date</label>
+								<label for="established" class="col-form-label" th:utext="#{established}"></label>
 								<input type="date" th:field="*{established}" class="form-control" id="established"/>
 								<div th:if="${#fields.hasErrors('established')}" th:errors="*{established}" class="alert alert-danger" role="alert"></div>
 							</div>
 							<div class="form-group col-md-6">
-								<label for="description" class="col-form-label">Description</label>
+								<label for="description" class="col-form-label" th:utext="#{descrip}"></label>
 								<input type="text" th:field="*{description}" class="form-control" id="description"/>
 								<div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert alert-danger" role="alert"></div>
 							</div>							
 							<div class="form-group col-md-6">
-								<label for="file" class="col-form-label">Logo of publisher</label>
+								<label for="file" class="col-form-label" th:utext="#{image_publisher}"></label>
 								<input type="file"  class="form-control-file" id="file" name="file"/>		
 							</div>
 							<div class="form-group col-md-8">
-								<input type="submit" class="btn btn-primary" value="Add a publisher">
+								<input type="submit" class="btn btn-primary" th:utext="#{add_publisher}">
 							</div>
 						</div>
 					</form>

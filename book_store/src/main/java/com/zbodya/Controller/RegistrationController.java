@@ -40,5 +40,12 @@ public class RegistrationController
 		}
 		return "redirect:/";
 	}
+	
+	@GetMapping("/")
+	public String main(Model model) 
+	{
+		return "redirect:/book/allBooks?findReq=false";
+	}
 
 }
+	

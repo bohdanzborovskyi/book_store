@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.LocaleResolver;
 
 import com.zbodya.Model.Author;
 import com.zbodya.Model.Book;
@@ -57,7 +58,10 @@ public class BookController {
 	PublisherRepository publisherRepo;
 	
 	@Autowired
-	BookService bookService;	
+	BookService bookService;
+	
+	@Autowired 
+	LocaleResolver localeResolver;
 	
 	
 	@GetMapping(value = "/addBookForm")
@@ -115,8 +119,9 @@ public class BookController {
 	
 	@GetMapping(value="/allBooks")
 	public String allBooks(@RequestParam(defaultValue = "1")Integer pageNo, @RequestParam(defaultValue = "4") Integer size,
-			@RequestParam(defaultValue = "title") String sort, @RequestParam(required = false) String findBy,@RequestParam (required = false) String findKey, Model model, HttpServletRequest request)
-	{
+			@RequestParam(defaultValue = "title") String sort, @RequestParam(required = false) String findBy,
+			@RequestParam (required = false) String findKey, Model model, HttpServletRequest request)
+	{		
 		Page<Book>books;
 		System.out.println(request.getParameter("findReq") + " " + request.getParameter("findBy"));
 		if(request.getParameter("findReq")!=null)

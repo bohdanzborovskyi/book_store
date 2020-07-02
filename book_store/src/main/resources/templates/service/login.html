@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<title>Publisher info</title>
+<title th:utext="#{login_page}"></title>
 </head>
 <body>	
 
@@ -12,8 +12,8 @@
     		<div class="carousel-item active">
     		    <img th:src="@{/images/service/library.jpeg}" width="1200px" height="720px" class="d-block w-100" >
     		    <div class="carousel-caption d-none d-md-block">
-        			<h5>Welcome in Book Store</h5>
-        			<p>Only books matter</p>
+        			<h5 th:utext="#{welcome}"></h5>
+        			<p th:utext="#{title}"></p>
       			</div>
     		</div>    		
   		</div>
@@ -23,32 +23,32 @@
 		<a class="navbar-brand" href="#">Book Store</a>
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link" th:href="@{/login}">Login</a>
+				<a class="nav-link" th:href="@{/login}" th:utext="#{login}"></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" th:href="@{/registration}">Registration</a>
+				<a class="nav-link" th:href="@{/registration}" th:utext="#{registration}"></a>
 			</li>
 		</ul>
 	</nav>
 
 	
 	<div class="container">					
-		<h3>Login to Bookstore</h3>
+		<h3 th:utext="#{login}"></h3>
 		<div class="card">
 			<div class="card-body">
 				<div class="col-md-6">
 					<form action="#" th:action="@{/login}"  method="post">
 						<div class="row">
 							<div class="form-group col-md-6">
-								<label for="username" class="col-form-label">Username</label>
+								<label for="username" class="col-form-label" th:utext="#{username}"></label>
 								<input type="text" class="form-control" name="username"/>
 							</div>
 							<div class="form-group col-md-6">
-								<label for="password" class="col-form-label">Password</label>
+								<label for="password" class="col-form-label" th:utext="#{password}"></label>
 								<input type="password" class="form-control" name="password"/>
 							</div>							
 							<div class="form-group col-md-8">
-								<input type="submit" class="btn btn-primary" value="Login">
+								<button type="submit" class="btn btn-primary" th:utext="#{login}">
 							</div>
 						</div>
 					</form>
